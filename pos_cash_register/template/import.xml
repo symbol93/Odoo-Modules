@@ -1,0 +1,8 @@
+<odoo>
+
+    <template id="pos_cash_register_assets_backend" name="pos_bus assets" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/pos_cash_register/static/src/js/pos.js"/>
+        </xpath>
+    </template>
+</odoo>
