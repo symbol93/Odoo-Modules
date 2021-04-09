@@ -1,0 +1,124 @@
+<odoo>
+    <!--
+    <template id="product_add_qty_extended" inherit_id="website_sale.product_quantity" active="True" name="Schedule Add Qty">
+        <xpath expr="//div[1]" position="replace">
+            <t t-if="shop_available">
+                <div class="css_quantity input-group" contenteditable="false">
+                    <div class="input-group-prepend">
+                        <a t-attf-href="#" class="btn btn-secondary js_add_cart_json" aria-label="Remove one" title="Remove one">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                    </div>
+                    <input type="text" class="form-control quantity" data-min="1" name="add_qty" t-att-value="add_qty or 1"/>
+                    <div class="input-group-append">
+                        <a t-attf-href="#" class="btn btn-secondary float_left js_add_cart_json" aria-label="Add one" title="Add one">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+    -->
+    <template id="product_add_to_cart_extended" inherit_id="website_sale.product" active="True" name="Schedule Add To Cart">
+        <xpath expr="//a[@id='add_to_cart']" position="replace">
+            <t t-if="shop_available">
+                <a role="button" id="add_to_cart" class="btn btn-primary btn-lg mt16 js_check_product a-submit d-block d-sm-inline-block" href="#"><i class="fa fa-shopping-cart"/>Add to Cart
+                </a>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='product_option_block']" position="replace">
+            <t t-if="shop_available">
+                <div id="product_option_block"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//h1[@t-field='product.name']" position="before">
+            <h4 t-if="not shop_available" style="background-color: blanchedalmond;" t-esc="close_message"/>
+            <span t-if="not shop_available" style="background-color: blanchedalmond;font-size: 19px;">Programul nostru îl gasiți
+                <a href="/shopschedule">aici !</a>
+            </span>
+        </xpath>
+    </template>
+
+
+    <template id="website_schedule_payment" inherit_id="website_sale.payment">
+        <xpath expr="//div[@id='payment_method']" position="replace">
+
+            <div id="payment_method" class="mt-3" t-if="((acquirers or tokens) and website_sale_order.amount_total) and shop_available">
+
+                <h3 class="mb24">Pay with</h3>
+                <t t-call="payment.payment_tokens_list">
+                    <t t-set="mode" t-value="'payment'"/>
+                    <t t-set="submit_txt">Pay Now</t>
+                    <t t-set="icon_right" t-value="1"/>
+                    <t t-set="icon_class" t-value="'fa-chevron-right'"/>
+                    <t t-set="submit_class" t-value="'btn btn-primary'"/>
+                    <t t-set="pms" t-value="tokens"/>
+                    <t t-set="form_action" t-value="'/shop/payment/token'"/>
+                    <t t-set="prepare_tx_url" t-value="'/shop/payment/transaction/'"/>
+                    <t t-set="partner_id" t-value="partner"/>
+
+                    <t t-set="back_button_icon_class" t-value="'fa-chevron-left'"/>
+                    <t t-set="back_button_txt">Return to Cart</t>
+                    <t t-set="back_button_class" t-value="'btn btn-secondary'"/>
+                    <t t-set="back_button_link" t-value="'/shop/cart'"/>
+                </t>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[hasclass('oe_cart')]//div[1]" position="before">
+            <h4 t-if="not shop_available" style="background-color: blanchedalmond;" t-esc="close_message"/>
+            <span t-if="not shop_available" style="background-color: blanchedalmond;font-size: 19px;">Programul nostru îl gasiți
+                <a href="/shopschedule">aici !</a>
+            </span>
+        </xpath>
+
+    </template>
+
+
+    <template id="website_shop_schedule.program">
+        <div id="wrap">
+            <div class="oe_structure" style="max-width: 520px!important;margin: auto;">
+                <section class="pt8 pb8">
+                    <div class="container">
+                        <div class="row s_nb_column_fixed">
+                            <div class="col-lg-12 s_title pt16 pb16">
+                                <h1 style="text-align: center;">Program</h1>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="container mt-2">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr t-foreach="schedule_lines" t-as="line">
+                            <td>
+                                <span class="col-form-label" t-esc="line.get_label_day_of_week()"/>
+                            </td>
+                            <td><span class="col-form-label" t-esc="line.get_start_hour()"/>:
+                                <span class="col-form-label" t-esc="line.get_start_min() or '00'"/>
+                            </td>
+                            <td>
+                                <span class="col-form-label" t-esc="line.get_end_hour()"/>:
+                                <span class="col-form-label" t-esc="line.get_end_min() or '00'"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="oe_structure mt-2"/>
+        </div>
+    </template>
+
+    <template id="website_shop_schedule.shop_schedule" name="Shop schedule">
+
+        <t t-call="website.layout">
+            <t t-call="website_shop_schedule.program"/>
+        </t>
+    </template>
+
+
+</odoo>

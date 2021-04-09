@@ -1,0 +1,36 @@
+<odoo>
+
+    <record id="shop_list_form_view" model="ir.ui.view">
+        <field name="name">shop.list.form.view</field>
+        <field name="model">shop.list</field>
+        <field name="arch" type="xml">
+            <form string="Shop">
+                <sheet>
+                    <group>
+
+                        <field name="name" required="1"/>
+
+                        <field name="product_ids" widget="many2many">
+                            <tree>
+                                <field name="default_code"/>
+                                <field name="name"/>
+                                <field name="lst_price"/>
+                            </tree>
+                        </field>
+
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_shop_menu">
+        <field name="name">Shops</field>
+        <field name="res_model">shop.list</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem name="Shops" id="menuitem_shop_list" parent="website.menu_website_configuration" action="action_shop_menu"/>
+</odoo>

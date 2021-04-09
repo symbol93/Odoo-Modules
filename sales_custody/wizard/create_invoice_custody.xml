@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+
+
+        <record id="invoice_custody_view" model="ir.ui.view">
+            <field name="name">invoice.custody.form</field>
+            <field name="model">invoice.custody</field>
+            <field name="arch" type="xml">
+                <form string="Create invoice">
+                    <group>
+                        <field name="journal_id" domain="[('type','=','sale')]" required="1"/>
+                        <field name="pricelist_id" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="Create invoice" name="create_invoice" type="object" default_focus="1" class="oe_highlight"/>
+                        sau
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id="action_create_invoice_custody_wizard"
+                    name="Create Invoice"
+                    target="new"
+                    res_model="invoice.custody"
+                    view_mode="form"
+                    binding_model="sales.custody"
+                    view_id="invoice_custody_view"/>
+
+    </data>
+</odoo>

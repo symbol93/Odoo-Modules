@@ -1,0 +1,9 @@
+<odoo>
+
+    <template id="payment_ing_extended" inherit_id="website_sale.payment_confirmation_status">
+        <xpath expr="//div[hasclass('card-header')]" position="inside">
+            <t t-raw="payment_tx_id.ing_message"/>
+        </xpath>
+    </template>
+
+</odoo>

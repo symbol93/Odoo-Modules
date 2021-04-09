@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+
+
+        <report
+                id="account_move_nir"
+                model="account.move"
+                string="NIR"
+                report_type="qweb-pdf"
+                name="bart_export_saga.report_account_move_nir"
+                file="bart_export_saga.report_account_move_nir"
+                print_report_name="'NIR - %s' % (object.name)"
+        />
+    </data>
+</odoo>

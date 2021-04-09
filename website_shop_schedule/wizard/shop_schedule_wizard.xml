@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shop_schedule_wizard" model="ir.ui.view">
+        <field name="name">Shop Schedule</field>
+        <field name="model">shop.schedule.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Shop schedule">
+
+
+                <group>
+                    <field name="website_id" />
+                    <field name="shop_available"/>
+                    <field name="close_message"/>
+                    <field name="website_day_schedule_ids" widget="section_and_note_one2many" mode="tree" readonly="1">
+                        <tree string="Day schedule" editable="bottom">
+                            <field name="day_of_week"/>
+                            <field name="start_hour" widget="float_time"/>
+                            <field name="end_hour" widget="float_time"/>
+                        </tree>
+                    </field>
+                </group>
+
+                <footer>
+                    <button name="update_data" string="Confirma" type="object" default_focus="1"
+                            class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_shop_schedule_wizard" model="ir.actions.act_window">
+        <field name="name">Program website</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shop.schedule.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="shop_schedule_wizard"/>
+        <field name="target">new</field>
+
+    </record>
+
+    <menuitem name="Shop on/off" id="menu_shop_schedule" parent="website.menu_website_configuration" action="action_shop_schedule_wizard"/>
+
+
+</odoo>

@@ -1,0 +1,2 @@
+"id","name","model_id/id","perm_create","perm_unlink","perm_read","perm_write",group_id/id
+access_shop_list,access_shop_list,model_shop_list,1,1,1,1,

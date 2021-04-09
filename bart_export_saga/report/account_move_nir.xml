@@ -1,0 +1,158 @@
+<odoo>
+
+    <template id="report_account_move_nir_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <t t-set="partner" t-value="o.partner_id or False"/>
+
+
+                <div class="page">
+                    <h1>Nota de receptie si constatare de diferente</h1>
+                    <div class="row mt32 mb32">
+                        <div class="col-auto" name="div_origin">
+                            <strong>Nr NIR:</strong>
+                            <p t-field="o.name"/>
+                        </div>
+                        <div class="col-auto" name="div_origin">
+                            <strong>Nr Doc.:</strong>
+                            <p t-field="o.ref"/>
+                        </div>
+                        <div class="col-auto" name="div_sched_date">
+                            <strong>Data:</strong>
+                            <p t-field="o.date" t-options='{"widget": "date"}'/>
+                        </div>
+                        <div class="col-auto">
+                            <strong>Furnizor:</strong>
+                            <p t-field="o.partner_id.name"/>
+                        </div>
+
+                    </div>
+                    <table class="table table-sm" t-if="o.state!='done'" name="stock_move_table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <strong>Denumire articol</strong>
+                                </th>
+                                <th>
+                                    <strong>UM</strong>
+                                </th>
+                                <th>
+                                    <strong>Cont deb.</strong>
+                                </th>
+                                <th>
+                                    <strong>Cantitate</strong>
+                                </th>
+                                <th>
+                                    <strong>Pret Unitare</strong>
+                                </th>
+                                <th>
+                                    <strong>Valoare</strong>
+                                </th>
+                                <th>
+                                    <strong>TVA</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.invoice_line_ids" t-as="line">
+                                <td>
+                                    <span t-field="line.product_id.name"/>
+                                </td>
+
+                                <td>
+                                    <span t-field="line.product_uom_id"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.account_id.code"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.quantity"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.price_unit"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.price_subtotal"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.price_total-line.price_subtotal" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <span>Total:</span>
+                                </td>
+                                <td>
+                                    <span t-field="o.amount_untaxed"/>
+                                </td>
+                                <td>
+                                    <span t-field="o.amount_tax"/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td colspan="3">
+                                    <span>Total valoare + TVA:</span>
+                                    <span t-field="o.amount_total"/>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <table class="table table-sm">
+                        <thead>
+                            <th>
+                                <span>Comisia de receptie</span>
+                            </th>
+                            <th>
+                                <span>Nume si prenume</span>
+                            </th>
+                            <th>
+                                <span>Semnatura</span>
+                            </th>
+                            <th>
+                                <span>Data</span>
+                            </th>
+                            <th>
+                                <span>Primit in gestiune</span>
+                            </th>
+                            <th>
+                                <span>Semnatura</span>
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <span t-field="o.date"/>
+                                </td>
+                                <td/>
+                                <td/>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_account_move_nir">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="bart_export_saga.report_account_move_nir_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </template>
+</odoo>

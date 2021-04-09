@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+
+		<record id="payment_acquirer_ing" model="payment.acquirer">
+			<field name="name">Ing</field>
+			<field name="display_as">Credit card (Ing)</field>
+			<field name="image_128" type="base64" file="payment_ing/static/src/img/logo.jpg" />
+			<field name="provider">ing</field>
+			<field name="company_id" ref="base.main_company" />
+			<field name="view_template_id" ref="payment_ing.ing_acquirer_button" />
+			<field name="state">disabled</field>
+		</record>
+
+	</data>
+</odoo>

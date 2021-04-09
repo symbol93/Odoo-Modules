@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="account_move_export_saga_wizard_view" model="ir.ui.view">
+        <field name="name">account.move.export.saga.wizard.form</field>
+        <field name="model">account.move.export.saga.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+
+            <form string="Export saga">
+                <p class="oe_grey">
+                    Se vor genera fisierele xml pentru facturile selectate
+                </p>
+                <footer>
+                    <button string="Export" name="export_saga" type="object" default_focus="1" class="oe_highlight"/>
+                    sau
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <act_window id="action_account_move_export_saga"
+                name="Export saga"
+                target="new"
+                res_model="account.move.export.saga.wizard"
+                view_mode="form"
+                binding_model="account.move"
+                view_id="account_move_export_saga_wizard_view"/>
+
+
+</odoo>

@@ -1,0 +1,3 @@
+"id","name","model_id/id","perm_create","perm_unlink","perm_read","perm_write",group_id/id
+access_custody_sale_all,access_custody_sale_all,model_sales_custody,0,0,1,0,
+access_custody_sale_group,access_custody_sale_group,model_sales_custody,1,1,1,1,group_sales_custody

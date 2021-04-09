@@ -1,0 +1,1 @@
+from . import shop_schedule_wizard

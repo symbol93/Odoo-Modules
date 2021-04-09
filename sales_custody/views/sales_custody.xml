@@ -1,0 +1,143 @@
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="view_sales_custody_form">
+            <field name="name">sales.custody.form</field>
+            <field name="model">sales.custody</field>
+            <field name="arch" type="xml">
+                <form string="History">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="delivery_partner_id"/>
+                                <field name="product_id"/>
+                                <field name="price_unit"/>
+                                <field name="last_price_from"/>
+                            </group>
+                            <group>
+                                <field name="qty_delivered"/>
+                                <field name="qty_invoiced"/>
+                                <field name="qty_available"/>
+                                <field name="amount_delivered"/>
+                                <field name="amount_invoiced"/>
+                                <field name="amount_available"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Stock Moves">
+
+                                <label for="move_ids"/>
+                                <field name="move_ids" readonly="True">
+                                    <tree>
+                                        <field name="picking_id" string="Stock picking"/>
+                                        <field name="date"/>
+                                        <field name="origin"/>
+                                        <field name="quantity_done"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Invoice lines">
+
+                                <label for="invoice_line_ids"/>
+                                <field name="invoice_line_ids" readonly="True">
+                                    <tree>
+                                        <field name="move_id" string="Invoice"/>
+                                        <field name="quantity"/>
+                                        <field name="create_date"/>
+                                        <field name="price_total"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sales_custody_history" model="ir.actions.act_window">
+            <field name="name">History</field>
+            <field name="res_model">sales.custody</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_sales_custody_form"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.ui.view" id="view_sales_custody_tree">
+            <field name="name">sales.custody.tree</field>
+            <field name="model">sales.custody</field>
+            <field name="arch" type="xml">
+                <tree string="Custody Sales" editable="bottom" decoration-bf="qty_to_invoice!=0" decoration-info="qty_to_invoice!=0">
+                    <button string="Show history" name="show_history" type='object'/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="delivery_partner_id" readonly="1"/>
+                    <field name="last_price_from" readonly="1"/>
+                    <field name="product_id" readonly="1"/>
+                    <field name="product_uom" readonly="1"/>
+                    <field name="price_unit" readonly="1"/>
+                    <field name="qty_delivered" sum="Total delivered qty"/>
+                    <field name="qty_invoiced" sum="Total invoiced qty"/>
+                    <field name="qty_available" sum="Total on hand qty"/>
+                    <field name="amount_delivered" sum="Total delivered amount"/>
+                    <field name="amount_invoiced" sum="Total invoiced amount"/>
+                    <field name="amount_available" sum="Total amount on hand"/>
+                    <field name="qty_to_invoice" sum="Total qty"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="view_sales_custody_search">
+            <field name="name">sales.custody.search</field>
+            <field name="model">sales.custody</field>
+            <field name="arch" type="xml">
+                <search string="Sales Custody">
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                    <field name="user_id"/>
+                    <filter string="On hand" icon="terp-check" name="on_hand" domain="[('qty_available','!=',0)]"/>
+
+                    <separator/>
+                    <group expand="0" string="Group by...">
+                        <filter string="Partner" icon="terp-personal" name="group_partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Product" icon="terp-personal" name="group_product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Sale person" icon="terp-personal" name="group_user" domain="[]" context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_sales_custody">
+            <field name="name">Sales custody</field>
+            <field name="res_model">sales.custody</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_sales_custody_search"></field>
+            <field name="context">{"search_default_on_hand":1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_invoice_custody">
+            <field name="name">Account Invoice</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('on_custody','=',True)]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_pickings_custody">
+            <field name="name">Stock Picking</field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('on_custody','=',True)]</field>
+        </record>
+
+        <menuitem name="Custody Sales" id="menu_sales_custody_root" sequence="12" groups="sales_custody.group_sales_custody"/>
+        <menuitem name="Custody Sales" id="menuitem_sales_custody" parent="sales_custody.menu_sales_custody_root" action="action_sales_custody"/>
+        <menuitem name="Custody Invoices" id="menuitem_invoice_custody" parent="sales_custody.menu_sales_custody_root" action="action_invoice_custody"/>
+        <menuitem name="Custody Pickings" id="menuitem_pickings_custody" parent="sales_custody.menu_sales_custody_root" action="action_pickings_custody"/>
+    </data>
+</odoo>

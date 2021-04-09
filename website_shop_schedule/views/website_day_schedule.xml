@@ -1,0 +1,31 @@
+<odoo>
+    <record id="view_website_form_extended" model="ir.ui.view">
+        <field name="name">website.form.extended</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div name="website_day_schedule">
+                    <group>
+                        <field name="is_delivery"/>
+                        <field name="shop_available"/>
+                        <field name="close_message"/>
+                    </group>
+                    <field name="website_day_schedule_ids" widget="section_and_note_one2many" mode="tree">
+                        <tree string="Day schedule" editable="bottom">
+                            <field name="day_of_week"/>
+                            <field name="start_hour" widget="float_time"/>
+                            <field name="end_hour" widget="float_time"/>
+                        </tree>
+                    </field>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.menu" id="website.menu_website_websites_list">
+        <field name="groups_id" eval="[(6, 0, [ref('website.group_website_designer')])]"/>
+    </record>
+
+
+</odoo>

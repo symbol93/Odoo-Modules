@@ -1,0 +1,16 @@
+<odoo>
+    <record id="view_website_form_shop_extended" model="ir.ui.view">
+        <field name="name">website.form.extended</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div name="website_shop">
+                    <group>
+                        <field name="shop_id"/>
+                    </group>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

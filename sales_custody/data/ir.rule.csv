@@ -1,0 +1,2 @@
+id,"active","perm_create","perm_unlink","perm_read","perm_write","domain_force","groups/id","name","model_id/id"
+sales_custody_company_rule,"True","True","True","True","True","[('company_id', 'in', company_ids)]","","Sales Custody multi company","sales_custody.model_sales_custody"
